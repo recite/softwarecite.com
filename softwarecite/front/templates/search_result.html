@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2 class="text-lg font-bold mb-2">Search Results for <span class="text-green-800">{{ form.search_query.value }}</span>:
+</h2>
+{% if results %}
+{% regroup results by repo_id as repo_list %}
+Found in: {{ repo_list|length }} dataset
+<ul>
+    {% for repo in repo_list %}
+    <li><span class="text-blue-600">{{ repo.grouper }}</span>
+        <ul>
+            {% for repo in repo.list %}
+            <li><span class="p-2">{{ repo.file_path }}</span></li>
+            {% endfor %}
+        </ul>
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No results found.</p>
+{% endif %}
+{% endblock %}
