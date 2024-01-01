@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse
 from django.shortcuts import render
 
@@ -11,15 +12,23 @@ def index(request):
     return render(request, 'index.html')
 
 
-def search_view(request):
-    form = SearchForm(request.POST)
+def package_view(request, name):
     results = []
+    page = request.GET.get('page', 1)
+    results = Package.objects.filter(name=name)
+    count = results.values('name', 'repo_id').distinct().count()
+    # Assuming you want 10 items per page
+    items_per_page = 10
 
-    if form.is_valid():
-        search_query = form.cleaned_data.get('search_query')
-        results = Package.objects.filter(name__icontains=search_query)
+    paginator = Paginator(results, items_per_page)
+    try:
+        paginated_packages = paginator.page(page)
+    except PageNotAnInteger:
+        paginated_packages = paginator.page(1)
+    except EmptyPage:
+        paginated_packages = paginator.page(paginator.num_pages)
 
-    return render(request, 'search_result.html', {'form': form, 'results': results})
+    return render(request, 'package.html', {'name': name, 'n_repo': count, 'results': paginated_packages})
 
 
 def about_view(request):
