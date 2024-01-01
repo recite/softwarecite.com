@@ -1,4 +1,8 @@
+from django.http import HttpResponse
 from django.shortcuts import render
+
+import pybadges
+
 from .forms import SearchForm
 from .models import Package
 
@@ -20,3 +24,10 @@ def search_view(request):
 
 def about_view(request):
     return render(request, 'about.html')
+
+
+def badge_view(request, package):
+    count = Package.objects.filter(name=package).values('name', 'repo_id').distinct().count()
+    badge = pybadges.badge(left_text='replications', right_text=str(count))
+
+    return HttpResponse(badge, content_type='image/svg+xml')
