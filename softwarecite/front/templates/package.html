@@ -15,7 +15,7 @@
     <div class="bg-white p-4 rounded shadow">
         <h2 class="text-2xl font-semibold mb-2">Badge </h2>
         <div class="p-2 mb-4"><img src="{% url 'badge_view' name %}"></div>
-        <div class="max-w-md mx-2">
+        <div class="max-w-xl mx-2">
             {% with base_url=request.scheme|default:"http"|add:"://"|add:request.get_host %}
             <textarea id="readonlyTextarea" readonly
                 class="w-full resize-none border rounded focus:outline-none focus:ring focus:border-blue-300">[![Replications]({{ base_url }}/badge/{{ name }})]({{ base_url }}/package/{{ name }})</textarea>
