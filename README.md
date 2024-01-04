@@ -1,4 +1,4 @@
-## softwarecite.com: tallying use in replication files
+## softwarecite.com: tallying software used in replication files
 
 Get badges with verified counts of how often a library has been used in replication files. 
 
