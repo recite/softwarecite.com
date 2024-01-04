@@ -11,11 +11,6 @@ body {
   background-color: #f8f8f8;
 }
 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
 .header {
   background-color: #333;
   color: #fff;
