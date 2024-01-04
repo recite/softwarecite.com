@@ -26,3 +26,7 @@ Pipfile.lock
 .DS_Store
 
 venv/
+
+.env.dev
+.env.prod
+.env.prod.db
