@@ -5,7 +5,7 @@ services:
     build:
       context: ../softwarecite
       dockerfile: Dockerfile.prod
-    command: gunicorn softwarecite.wsgi:application --bind 0.0.0.0:8000
+    command: gunicorn softwarecite.wsgi:application --bind 0.0.0.0:8000 --timeout 1200 --workers 3
     volumes:
       - static_volume:/home/app/web/staticfiles
       - media_volume:/home/app/web/mediafiles
