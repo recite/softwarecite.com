@@ -15,7 +15,7 @@ def index(request):
 def package_view(request, name):
     results = []
     page = request.GET.get('page', 1)
-    results = Package.objects.filter(name=name)
+    results = Package.objects.filter(name__iexact=name)
     count = results.values('name', 'repo_id').distinct().count()
     # Assuming you want 10 items per page
     items_per_page = 10
@@ -36,7 +36,7 @@ def about_view(request):
 
 
 def badge_view(request, package):
-    count = Package.objects.filter(name=package).values('name', 'repo_id').distinct().count()
+    count = Package.objects.filter(name__iexact=package).values('name', 'repo_id').distinct().count()
     badge = pybadges.badge(left_text='replications', right_text=str(count))
 
     return HttpResponse(badge, content_type='image/svg+xml')
