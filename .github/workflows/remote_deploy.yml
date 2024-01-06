@@ -12,7 +12,7 @@ jobs:
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.HOST }}
-        username: ${{ secrets.USER }}
+        username: ${{ secrets.USERNAME }}
         key: ${{ secrets.KEY }}
         script: |
           bash ~/softwarecite.com/deployment/update.sh
