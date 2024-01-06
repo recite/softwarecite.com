@@ -47,8 +47,8 @@ def search_view(request):
     package = request.GET.get("package")
     package_list = set()
     if package:
-        #collect every objects that contains the input text
+        # collect every objects that contains the input text
         packages = Package.objects.filter(name__icontains=package)[:100]
         for p in packages:
             package_list.add(p.name)
-    return JsonResponse({'status':200, 'package':list(package_list)})
+    return JsonResponse({'status': 200, 'package': list(package_list)})
