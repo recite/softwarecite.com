@@ -1,5 +1,5 @@
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 
 import pybadges
@@ -40,3 +40,15 @@ def badge_view(request, package):
     badge = pybadges.badge(left_text='replications', right_text=str(count))
 
     return HttpResponse(badge, content_type='image/svg+xml')
+
+
+def search_view(request):
+    """everytime user inputs to search box, this function runs"""
+    package = request.GET.get("package")
+    package_list = set()
+    if package:
+        #collect every objects that contains the input text
+        packages = Package.objects.filter(name__icontains=package)[:100]
+        for p in packages:
+            package_list.add(p.name)
+    return JsonResponse({'status':200, 'package':list(package_list)})

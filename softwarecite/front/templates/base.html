@@ -17,6 +17,7 @@
 	
 	  gtag('config', 'G-R4RZYXNC9Q');
 	</script>
+	<link rel="stylesheet" href="https://unpkg.com/@trevoreyre/autocomplete-js/dist/style.css" />
 	
 	{% tailwind_css %}
 </head>
@@ -40,17 +41,12 @@
 					<span class="sr-only">Search</span>
 				</button>
 				<div class="relative hidden w-full md:block">
-					<div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-						<svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
-							xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-							<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-								d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-						</svg>
-						<span class="sr-only">Search icon</span>
+					<div id="autocomplete" class="autocomplete mx-auto">
+						<input id="search-navbar"
+							class="autocomplete-input"
+							placeholder="Search a Python or R package name...">
+						<ul class="autocomplete-result-list"></ul>
 					</div>
-					<input type="text" id="search-navbar"
-						class="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-						placeholder="Search a Python or R package name...">
 				</div>
 				{% endif %}
 				<button id="navbar-toggle" data-collapse-toggle="navbar-search" type="button"
@@ -67,16 +63,12 @@
 			<div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-2" id="navbar-search">
 				{% if request.path != '/' %}
 				<div class="relative mt-3 md:hidden">
-					<div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-						<svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
-							xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-							<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-								d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-						</svg>
+					<div id="autocomplete" class="autocomplete mx-auto">
+						<input id="search-navbar"
+							class="autocomplete-input pl-10"
+							placeholder="Search a Python or R package name...">
+						<ul class="autocomplete-result-list"></ul>
 					</div>
-					<input type="text" id="search-navbar"
-						class="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-						placeholder="Search a Python or R package name...">
 				</div>
 				{% endif %}
 				<ul
@@ -107,6 +99,7 @@
 			</a>
 		</div>
 	</footer>
+	<script src="https://unpkg.com/@trevoreyre/autocomplete-js"></script>
 	<script>
 		document.addEventListener('DOMContentLoaded', function () {
 			const button = document.getElementById('navbar-toggle');
@@ -136,6 +129,28 @@
 					}
 				});
 			});
+			var name; // global variable that keeps the name
+			// Select all of the elements
+			const elements = document.querySelectorAll('#autocomplete')
+			// Attach autocomplete to each element
+			elements.forEach(el => {
+				new Autocomplete(el, {
+					search: input => {
+						const url = `/search/?package=${input}`;
+						return new Promise(resolve => {
+							if (input.length < 2) {
+								return resolve([])
+							}
+							fetch(url).then(response => response.json()).then(data => {
+								resolve(data.package);
+							})
+						})
+					},
+					onSubmit: result => {
+						name = result; //pass clicked result to global
+					}
+				})
+			})
 		});
 	</script>
 	{% block script %}
