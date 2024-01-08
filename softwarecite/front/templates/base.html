@@ -119,7 +119,7 @@
 
 			// Add an event listener to each search input
 			inputs.forEach(function (input) {
-				input.addEventListener('keydown', function (event) {
+				input.addEventListener('keyup', function (event) {
 					if (event.key === 'Enter' || event.keyCode === 13) {
 						event.preventDefault();
 						if (input.value != "") {
@@ -129,7 +129,6 @@
 					}
 				});
 			});
-			var name; // global variable that keeps the name
 			// Select all of the elements
 			const elements = document.querySelectorAll('#autocomplete')
 			// Attach autocomplete to each element
@@ -147,7 +146,8 @@
 						})
 					},
 					onSubmit: result => {
-						name = result; //pass clicked result to global
+						var url = "{% url 'package_view' name='example' %}".replace('example', encodeURIComponent(result));
+						window.location.href = url;
 					}
 				})
 			})
