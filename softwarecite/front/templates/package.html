@@ -2,9 +2,9 @@
 
 {% block content %}
 {% if results %}
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
-    <div class="bg-white p-6 rounded-lg shadow-md">
-        <h2 class="text-2xl font-bold mb-4 text-gray-800">Summary</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4" role="grid">
+    <div class="bg-white p-6 rounded-lg shadow-md" role="region" aria-labelledby="summary-heading">
+        <h2 id="summary-heading" class="text-2xl font-bold mb-4 text-gray-800">Summary</h2>
         <p class="text-gray-700 mb-2">
             <span class="font-semibold">Package:</span> {{ name }}
         </p>
@@ -12,16 +12,18 @@
             <span class="font-semibold">Found:</span> {{ results.paginator.count }} files from {{ n_repo }} repositories
         </p>
     </div>
-    <div class="bg-white p-4 rounded shadow">
-        <h2 class="text-2xl font-semibold mb-2">Badge </h2>
-        <div class="p-2 mb-4"><img src="{% url 'badge_view' name %}"></div>
+    <div class="bg-white p-4 rounded shadow" role="region" aria-labelledby="badge-heading">
+        <h2 id="badge-heading" class="text-2xl font-semibold mb-2">Badge</h2>
+        <div class="p-2 mb-4"><img src="{% url 'badge_view' name %}" alt="Badge Image"></div>
         <div class="max-w-xl mx-2">
             {% with base_url=request.scheme|default:"http"|add:"://"|add:request.get_host %}
             <textarea id="readonlyTextarea" readonly
-                class="w-full resize-none border rounded focus:outline-none focus:ring focus:border-blue-300">[![Replications]({{ base_url }}/badge/{{ name }})]({{ base_url }}/package/{{ name }})</textarea>
+                class="w-full resize-none border rounded focus:outline-none focus:ring focus:border-blue-300"
+                aria-label="Badge Markdown">[![Replications]({{ base_url }}/badge/{{ name }})]({{ base_url }}/package/{{ name }})</textarea>
             {% endwith %}
             <button onclick="copyToClipboard()"
-                class="bg-blue-500 text-white py-2 px-4 rounded cursor-pointer hover:bg-green-600">
+                class="bg-blue-500 text-white py-2 px-4 rounded cursor-pointer hover:bg-green-600" role="button"
+                aria-label="Copy to Clipboard">
                 <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                     fill="none" viewBox="0 0 18 20">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -31,35 +33,42 @@
         </div>
     </div>
 </div>
-<div class="bg-white p-4 rounded shadow mt-4">
-    <h2 class="text-lg font-semibold mb-2">Files</h2>
+<div class="bg-white p-4 rounded shadow mt-4" role="region" aria-labelledby="files-heading">
+    <h2 id="files-heading" class="text-lg font-semibold mb-2">Files</h2>
     <div class="container mx-auto mb-16 relative">
-        <ul>
+        <ul role="list">
             {% regroup results by repo_id as repo_list %}
             {% for repo in repo_list %}
-            <li><span class="flex items-center text-blue-600">{{ repo.grouper }}<a class="ml-2" href= "https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/{{ repo.grouper }}" target="_blank"><svg class="w-4 h-4 text-gray-500 aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11v4.833A1.166 1.166 0 0 1 13.833 17H2.167A1.167 1.167 0 0 1 1 15.833V4.167A1.166 1.166 0 0 1 2.167 3h4.618m4.447-2H17v5.768M9.111 8.889l7.778-7.778"/>
-              </svg></a></span>
-                <ul>
+            <li role="listitem">
+                <span class="flex items-center text-blue-600">{{ repo.grouper }}<a class="ml-2"
+                        href="https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/{{ repo.grouper }}"
+                        target="_blank" aria-label="Link to Dataset">
+                        <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                            fill="none" viewBox="0 0 18 18">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                stroke-width="2" d="M15 11v4.833A1.166 1.166 0 0 1 13.833 17H2.167A1.167 1.167 0 0 1 1 15.833V4.167A1.166 1.166 0 0 1 2.167 3h4.618m4.447-2H17v5.768M9.111 8.889l7.778-7.778" />
+                        </svg>
+                    </a></span>
+                <ul role="list">
                     {% for repo in repo.list %}
-                    <li><span class="p-2">{{ repo.file_path }}</span></li>
+                    <li role="listitem"><span class="p-2">{{ repo.file_path }}</span></li>
                     {% endfor %}
                 </ul>
             </li>
             {% endfor %}
         </ul>
-        <div class="sticky bottom-0 left-0 right-0 p-4">
+        <div class="sticky bottom-0 left-0 right-0 p-4" role="navigation" aria-label="Pagination">
             <span class="mr-2">
                 Page {{ results.number }} of {{ results.paginator.num_pages }}
             </span>
             {% if results.has_previous %}
-            <a href="?page=1" class="px-2 py-1 bg-blue-500 text-white rounded">first</a>
+            <a href="?page=1" class="px-2 py-1 bg-blue-500 text-white rounded" role="link">first</a>
             <a href="?page={{ results.previous_page_number }}"
-                class="px-2 py-1 bg-blue-500 text-white rounded">previous</a>
+                class="px-2 py-1 bg-blue-500 text-white rounded" role="link">previous</a>
             {% endif %}
             {% if results.has_next %}
-            <a href="?page={{ results.next_page_number }}" class="px-2 py-1 bg-blue-500 text-white rounded">next</a>
-            <a href="?page={{ results.paginator.num_pages }}" class="px-2 py-1 bg-blue-500 text-white rounded">last</a>
+            <a href="?page={{ results.next_page_number }}" class="px-2 py-1 bg-blue-500 text-white rounded" role="link">next</a>
+            <a href="?page={{ results.paginator.num_pages }}" class="px-2 py-1 bg-blue-500 text-white rounded" role="link">last</a>
             {% endif %}
         </div>
     </div>

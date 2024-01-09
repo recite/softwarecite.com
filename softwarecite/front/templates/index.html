@@ -1,19 +1,22 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container mx-auto flex flex-col items-center justify-center">
-  <h1 class="text-3xl text-green-800 p-2 mt-4">Softwarecite</h1>
-  <div class="relative w-full lg:w-1/2 mt-4">
+<div class="container mx-auto flex flex-col items-center justify-center" role="main">
+  <h1 class="text-3xl text-green-800 p-2 mt-4" role="heading" aria-level="1">Softwarecite</h1>
+  <div class="relative w-full lg:w-1/2 mt-4" role="search">
     <div id="autocomplete" class="autocomplete mx-auto mt-4">
-    <input id="search-navbar"
-      class="autocomplete-input"
-      placeholder="Search a Python or R package name...">
-      <ul class="autocomplete-result-list"></ul>
+      <input id="search-navbar"
+        class="autocomplete-input"
+        placeholder="Search a Python or R package name..."
+        role="textbox"
+        aria-label="Search input for Python or R package name">
+      <ul class="autocomplete-result-list" role="listbox" aria-expanded="false"></ul>
     </div>
   </div>
-  <div class="w-full lg:w-1/2 p-4 mt-8">
+  <div class="w-full lg:w-1/2 p-4 mt-8" role="region" aria-labelledby="info-heading">
+    <p id="info-heading" class="sr-only">Information about Softwarecite</p>
     Auto-computed citations to software from replication files. We sift through replication files of over 34 journals, including the APSR, AJPS, JoP, BJPolS, Political Analysis, World Politics, and Political Behavior, to tally the libraries used.
-    For more information, see <a class="text-blue-500 hover:underline" href="https://github.com/recite/softverse" target="_blank">Softverse</a>. The code behind this site is available <a class="text-blue-500 hover:underline" href="https://github.com/recite/softwarecite.com" target="_blank">here</a>.
+    For more information, see <a class="text-blue-500 hover:underline" href="https://github.com/recite/softverse" target="_blank" role="link" aria-label="Link to Softverse GitHub repository">Softverse</a>. The code behind this site is available <a class="text-blue-500 hover:underline" href="https://github.com/recite/softwarecite.com" target="_blank" role="link" aria-label="Link to Softwarecite.com GitHub repository">here</a>.
   </div>
 </div>
 {% endblock content %}

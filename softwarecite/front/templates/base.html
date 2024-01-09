@@ -22,8 +22,8 @@
 	{% tailwind_css %}
 </head>
 
-<body class="bg-gray-50 font-serif leading-normal tracking-normal">
-	<nav class="bg-white border-gray-200 dark:bg-gray-900 shadow-md">
+<body class="bg-gray-50 font-serif leading-normal tracking-normal" role="document">
+	<nav class="bg-white border-gray-200 dark:bg-gray-900 shadow-md" role="navigation" aria-label="Main Navigation">
 		<div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
 			<a href="/" class="flex items-center">
 				<span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Softwarecite</span>
@@ -32,7 +32,8 @@
 				{% if request.path != '/' %}
 				<button id="search-toggle" type="button" data-collapse-toggle="navbar-search"
 					aria-controls="navbar-search" aria-expanded="false"
-					class="md:hidden text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 mr-1">
+					class="md:hidden text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 mr-1"
+					role="button">
 					<svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
 						viewBox="0 0 20 20">
 						<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -44,14 +45,16 @@
 					<div id="autocomplete" class="autocomplete mx-auto">
 						<input id="search-navbar"
 							class="autocomplete-input"
-							placeholder="Search a Python or R package name...">
-						<ul class="autocomplete-result-list"></ul>
+							placeholder="Search a Python or R package name..."
+							role="searchbox"
+							aria-label="Search input for Python or R package name">
+						<ul class="autocomplete-result-list" role="listbox" aria-expanded="false"></ul>
 					</div>
 				</div>
 				{% endif %}
 				<button id="navbar-toggle" data-collapse-toggle="navbar-search" type="button"
 					class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-					aria-controls="navbar-search" aria-expanded="false">
+					aria-controls="navbar-search" aria-expanded="false" role="button">
 					<span class="sr-only">Open main menu</span>
 					<svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
 						viewBox="0 0 17 14">
@@ -66,14 +69,17 @@
 					<div id="autocomplete" class="autocomplete mx-auto">
 						<input id="search-navbar"
 							class="autocomplete-input pl-10"
-							placeholder="Search a Python or R package name...">
-						<ul class="autocomplete-result-list"></ul>
+							placeholder="Search a Python or R package name..."
+							role="searchbox"
+							aria-label="Search input for Python or R package name">
+						<ul class="autocomplete-result-list" role="listbox" aria-expanded="false"></ul>
 					</div>
 				</div>
 				{% endif %}
 				<ul
-					class="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-					<li>
+					class="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700"
+					role="menubar">
+					<li role="menuitem">
 						<a href="{% url 'about_view' %}"
 							class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">About</a>
 					</li>
@@ -81,16 +87,17 @@
 			</div>
 		</div>
 	</nav>
-	<div class="max-w-screen-xl container mx-auto p-4">
+	<div class="max-w-screen-xl container mx-auto p-4" role="main">
 		{% block content %}
 		{% endblock content %}
 	</div>
 	<!-- Footer -->
-	<footer class=" bg-gray-800 text-white p-4 fixed bottom-0 w-full flex justify-between items-center mx-auto">
+	<footer class=" bg-gray-800 text-white p-4 fixed bottom-0 w-full flex justify-between items-center mx-auto"
+		role="contentinfo">
 		<div class="max-w-screen-xl container mx-auto flex justify-between items-center">
 			<span>&copy; 2024 Softwarecite.com</span>
 			<a href="https://github.com/recite/softwarecite.com" target="_blank" rel="noopener noreferrer"
-				class="flex items-center space-x-2">
+				class="flex items-center space-x-2" role="link">
 				<svg class="w-8 h-8" fill="currentColor" viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg">
 					<path fill-rule="evenodd"
 						d="M48.854 0C21.839 0 0 22 0 49.217c0 21.756 13.993 40.172 33.405 46.69 2.427.49 3.316-1.059 3.316-2.362 0-1.141-.08-5.052-.08-9.127-13.59 2.934-16.42-5.867-16.42-5.867-2.184-5.704-5.42-7.17-5.42-7.17-4.448-3.015.324-3.015.324-3.015 4.934.326 7.523 5.052 7.523 5.052 4.367 7.496 11.404 5.378 14.235 4.074.404-3.178 1.699-5.378 3.074-6.6-10.839-1.141-22.243-5.378-22.243-24.283 0-5.378 1.94-9.778 5.014-13.2-.485-1.222-2.184-6.275.486-13.038 0 0 4.125-1.304 13.426 5.052a46.97 46.97 0 0 1 12.214-1.63c4.125 0 8.33.571 12.213 1.63 9.302-6.356 13.427-5.052 13.427-5.052 2.67 6.763.97 11.816.485 13.038 3.155 3.422 5.015 7.822 5.015 13.2 0 18.905-11.404 23.06-22.324 24.283 1.78 1.548 3.316 4.481 3.316 9.126 0 6.6-.08 11.897-.08 13.526 0 1.304.89 2.853 3.316 2.364 19.412-6.52 33.405-24.935 33.405-46.691C97.707 22 75.788 0 48.854 0z"
