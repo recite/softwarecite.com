@@ -15,7 +15,7 @@ def index(request):
 def package_view(request, name):
     results = []
     page = request.GET.get('page', 1)
-    results = Package.objects.filter(name__iexact=name)
+    results = Package.objects.filter(name__iexact=name, tag__name='latest')
     count = results.values('name', 'repo_id').distinct().count()
     # Assuming you want 10 items per page
     items_per_page = 10
@@ -36,7 +36,7 @@ def about_view(request):
 
 
 def badge_view(request, package):
-    count = Package.objects.filter(name__iexact=package).values('name', 'repo_id').distinct().count()
+    count = Package.objects.filter(name__iexact=package, tag__name='latest').values('name', 'repo_id').distinct().count()
     badge = pybadges.badge(left_text='replications', right_text=str(count))
 
     return HttpResponse(badge, content_type='image/svg+xml')
@@ -48,7 +48,7 @@ def search_view(request):
     package_list = set()
     if package:
         # collect every objects that contains the input text
-        packages = Package.objects.filter(name__icontains=package)[:100]
+        packages = Package.objects.filter(name__icontains=package, tag__name='latest')[:100]
         for p in packages:
             package_list.add(p.name)
     return JsonResponse({'status': 200, 'package': list(package_list)})
