@@ -43,7 +43,7 @@ def badge_view(request, package):
 
 
 def search_view(request):
-    """everytime user inputs to search box, this function runs"""
+    """every time user inputs to search box, this function runs"""
     package = request.GET.get("package")
     package_list = set()
     if package:
